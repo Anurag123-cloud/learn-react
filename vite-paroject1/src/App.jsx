@@ -17,7 +17,7 @@ return(
   <button className=' m-2 p-2 bg-[blue] rounded-lg text-white font-medium' onClick={()=>setColor("blue")}>change</button>
   <button className='m-2 p-2 bg-[green] rounded-lg text-white font-medium' onClick={()=>setColor("green")}>change</button>
   <button className='p-2 m-2 bg-[orange] rounded-lg text-white font-medium' onClick={()=>setColor("orange")}>change</button>
-  </div>fawserfqw
+  </div>   
   </div> 
   
   </>

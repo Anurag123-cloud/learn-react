@@ -1,35 +1,33 @@
 import { useState, useCallback,useEffect ,useRef} from "react";
 
 function App() {
-  const [length, setLength] = useState(8);
-  const [password, setPassword] = useState("");
-  const [numberAllowed, setnumberAllowed] = useState(false);
-  const [charAllowed, setCharAllowed] = useState(false);
+  const [length,setLength]=useState(8);
+  const [numberAllowed , setNumberAllowed]=useState(false);
+  const [charAllowed , setCharAllowed]=useState(false) ;
+  const [password ,setPassword]=useState("");
+  const passwordRef=useRef(null)
+  const generatedPassword=useCallback(()=>{
 
-  const passwordRef = useRef(null)
-
-  const generatedPassword = useCallback(() => {
-    let pass = "";
-    let str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-    if (numberAllowed) str += "123567890";
-    if (charAllowed) str += "!~@#$%^&*()_+{}:>?<";
-    for (let i=1; i <=length; i++) {
-      let char = Math.floor(Math.random() * str.length + 1);
-      pass += str.charAt(char);
+    let pass="";
+   let str="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    if(numberAllowed) str+="1234567890"
+    if(charAllowed) str+="~!@#$%^&*()_+={}:;<>?/|"
+    for (let i =1; i<length; i++){
+      let char=Math.floor(Math.random()*str.length+1);
+      pass += str.charAt(char)
     }
-    setPassword(pass);
-   
-  }, [length, numberAllowed, charAllowed, setPassword]);
-
-  const copyPassword=useEffect(()=>{
+    setPassword(pass)
+  },[numberAllowed,charAllowed,setPassword,length])
+ 
+  const copyFunction=useEffect(()=>{
     window.navigator.clipboard.writeText(password)
   },[password])
- 
-  useEffect(() => {
-    generatedPassword()
-  }, [length,numberAllowed,charAllowed,generatedPassword])
-  
 
+  useEffect(()=>{
+    generatedPassword()
+  },[generatedPassword,numberAllowed,charAllowed])
+  
+    
   return (
     <>
       <div
@@ -46,11 +44,11 @@ function App() {
             ref={passwordRef}
           />
           <button
-          onClick={()=>copyPassword}
+            onClick={copyFunction}
             className="p-2 bg-blue-700 text-white font-medium"
             
           >
-            gene
+            Copy
           </button>
         </div>
 
@@ -58,37 +56,31 @@ function App() {
           <div className="flex items-center gap-x-1">
             <input
               type="range"
-              max={100}
-              min={8}
-              value={length}
-              className="cursor-pointer"
-              onChange={(e) => {
-                setLength(e.target.value);
-              }}
+             max={100}
+             min={1}
+            className="cursor-pointer"
+            value={length}
+            onChange={(e)=>setLength(e.target.value)}
             />
             <label>Length {length}</label>
           </div>
           <div className="flex items-center gap-x-1">
             <input
               type="checkbox"
-              defaultChecked={numberAllowed}
+              defaultValue={numberAllowed}
               className="cursor-pointer"
               id="numberId"
-              onChange={() => {
-                setnumberAllowed((prev) => !prev);
-              }}
+            onChange={()=>setNumberAllowed((prev)=>!prev)}
             />
             <label>Number</label>
           </div>
           <div className="flex items-center gap-x-1">
             <input
               type="checkbox"
-              defaultChecked={charAllowed}
+             defaultValue={charAllowed}
               className="cursor-pointer"
               id="charId"
-              onChange={() => {
-                setCharAllowed((prev) => !prev);
-              }}
+              onChange={()=>setCharAllowed((prev)=>!prev)}
             />
             <label>Number</label>
           </div>
