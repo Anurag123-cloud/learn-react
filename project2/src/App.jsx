@@ -19,7 +19,8 @@ function App() {
     setPassword(pass)
   },[numberAllowed,charAllowed,setPassword,length])
  
-  const copyFunction=useEffect(()=>{
+  const copyFunction=useCallback(()=>{
+    passwordRef.current?.select(0, 100)
     window.navigator.clipboard.writeText(password)
   },[password])
 
@@ -45,7 +46,7 @@ function App() {
           />
           <button
             onClick={copyFunction}
-            className="p-2 bg-blue-700 text-white font-medium"
+            className="p-2 bg-blue-700 text-white font-medium hover:bg-gray-500 hover:"
             
           >
             Copy
