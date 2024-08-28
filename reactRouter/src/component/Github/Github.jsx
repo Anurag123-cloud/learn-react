@@ -13,7 +13,7 @@ export default function Github() {
 //     console.log(account)
    
   return (
-    <div className="bg-gray-300 text-3xl text-white p-4">
+    <div className="bg-gray-300 dark:bg-gray-800 text-3xl text-white p-4">
    <h1> My followers: {account.name}</h1>
    <h1> My followers: {account.followers}</h1>
    <img src={account.avatar_url}/>

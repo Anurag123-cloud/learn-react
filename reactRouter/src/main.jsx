@@ -21,7 +21,7 @@ import { githubInfo } from './component/Github/Github'
 
 const router=createBrowserRouter(
   createRoutesFromElements(
-    <Route path='/' element={<App/>}>
+    <Route  path='/' element={<App/>}>
       <Route path='home' element={<Home/>} />
       <Route path='about' element={<About/>} />
       <Route path='contact' element={<Contact/>} />
@@ -35,6 +35,6 @@ const router=createBrowserRouter(
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router}/>
+    <RouterProvider className="dark:bg-gray-900" router={router}/>
   </StrictMode>,
 )
