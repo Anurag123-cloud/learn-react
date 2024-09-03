@@ -11,14 +11,16 @@ export class AuthService{
         .setEndpoint(Config.appwriteUrl)
         .setProject(Config.appwriteProjectId)
         this.account=new Account(this.client)
-        console.log(this.account)
+     
     }
 
     async createAccount({email,password,name}){
         try {
            const userAccount= await this.account.create(ID.unique(),email,password,name);
            if (userAccount) {
+            console.log(userAccount)
              return this.login({email,password})
+            
            } else {
             return userAccount
            }
@@ -37,17 +39,15 @@ export class AuthService{
 
     async getCurrentUser() {
         try {
-            const user = await this.account.get();
-            return user;
+         const result= await this.account.get();
+         
+         return result
         } catch (error) {
-            if (error.response && error.response.status === 401) {
-                console.error('User not authenticated:', error.message);
-                // Handle the unauthenticated state, like redirecting to a login page
-                return null;
+            throw error;
             }
-            throw error; // Re-throw other unexpected errors
+            
         }
-    }
+   
     
 
     async logout(){

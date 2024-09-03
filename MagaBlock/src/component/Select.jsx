@@ -2,7 +2,7 @@ import {forwardRef, useId} from 'react'
 
 const Select = ({
     label,
-    option ,
+    options ,
     className="",
     ...props
 },ref) => {
@@ -19,7 +19,7 @@ const Select = ({
        ref={ref}
        {...props}
        >
-       {option?.map((option)=>(
+       {options?.map((option)=>(
         <option key={option} value={option}>
             {option}
         </option>

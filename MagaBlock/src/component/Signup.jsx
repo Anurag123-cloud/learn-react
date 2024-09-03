@@ -52,6 +52,7 @@ const Signup = () => {
                     <Input
                    placeholder="Enter Your Full Name"
                     label="Full Name"
+                    autoComplete="name"
                     {...register("name",{
                         required:true
                     })}
@@ -60,6 +61,7 @@ const Signup = () => {
                 label="Email"
                 placeholder="Enter your email"
                 type="email"
+                autoComplete="email"
                 {...register("email",{
                     required:true,
                     validate:{matchPattern:(value)=>
@@ -73,6 +75,7 @@ const Signup = () => {
                 type="password"
                 placeholder="Enter your password"
                 label="Password"
+                 autoComplete="Password"
                 {...register("password",{
                     required:true
                 })}

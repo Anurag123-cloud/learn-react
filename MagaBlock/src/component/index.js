@@ -11,5 +11,25 @@ import Signup from "./Signup";
 import PostFrom from "./post-from/PostFrom";
 import PostCard from "./PostCard";
 import LoginFrom from "./LoginFrom";
+import AuthLayout from "./AauthLayout";
 
-export {Header, Footer,Container,Logo,LogoutBtn,RTE,Button,Input,Select,PostCard,PostFrom,Signup,LoginFrom}
+
+
+
+export {
+    Header,
+    AuthLayout, 
+    Footer,
+    Container,
+    Logo,
+    LogoutBtn,
+    RTE,
+    Button,
+    Input,
+    Select,
+    PostCard,
+    PostFrom,
+    Signup,
+    LoginFrom,
+ 
+}

@@ -4,7 +4,7 @@ import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 
 const Header = () => {
-  const authService=useSelector((state)=>state.auth.status)
+  const authStatus=useSelector((state)=>state.auth.status)
   const navigate=useNavigate();
   const navItem=[
     {
@@ -25,12 +25,12 @@ const Header = () => {
     {
       name:"All Post",
       url:"/all-post",
-      active:!authStatus
+      active:authStatus
     },
     {
       name:"Add Post",
       url:"/add-post",
-      active:!authStatus
+      active:authStatus
     }
   ]
   return (
@@ -55,7 +55,7 @@ const Header = () => {
             ):null
             )
           }
-          {authService && (
+          {authStatus && (
             <li>
               <LogoutBtn/>
             </li>

@@ -1,5 +1,7 @@
-import { AppwriteException } from "appwrite"
-import { useNavigate } from "react-router-dom"
+import { Service } from "../../appwrite/databaseConfig"
+import { useNavigate,useParams } from "react-router-dom"
+import { useState,useEffect } from "react"
+import {Container,PostFrom} from "../index"
 
 
 const EditPost = () => {
@@ -7,16 +9,27 @@ const EditPost = () => {
     const {slug}=useParams()
     const navigate=useNavigate()
 
-    useEffect(() => {
-     await AppwriteService
+    useEffect(async () => {
+     if (slug) {
+        await Service.getPost(slug)
+     .then((post)=>{
+        if (post) {
+           setposts(post) 
+        }
+     })
+     } else {
+        navigate("/")
+     }
     }, [navigate,slug,setposts])
     
 
-  return (
-    <div>
-      
+  return posts ? (
+    <div className=" w-full py-8">
+      <Container>
+       <PostFrom post={posts}/> 
+      </Container>
     </div>
-  )
+  ):null
 }
 
 export default EditPost

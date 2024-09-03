@@ -1,23 +1,28 @@
 import React,{useCallback,useEffect} from 'react'
 import { useForm } from 'react-hook-form'
 import {Button ,Input ,Select ,RTE} from "../index"
-import { AppwriteService } from '../../appwrite/databaseConfig'
+import  service  from '../../appwrite/databaseConfig'
 import { useNavigate } from "react-router-dom";
 import { useSelector } from 'react-redux';
 
 const PostFrom = ({post}) => {
-    const {register,handleSubmit,getValues,setValue,watch,control}=useForm()
+    const {register,handleSubmit,getValues,setValue,watch,control}=useForm({defaultValues: {
+            title: post?.title || "",
+            slug: post?.$id || "",
+            content: post?.content || "",
+            status: post?.status || "active",
+        },})
     const navigate=useNavigate();
-    const userData=useSelector(state=>state.user.userData)
-
+    const userData=useSelector(state=>state.auth.userData)
+    console.log(userData)
     const submit=async(data)=>{
         if(post){
-            const file= data.image[0] ? AppwriteService.uploadFile(data.image[0]) :null
+            const file= data.image[0] ? service.uploadFile(data.image[0]) :null
         
         if (file) {
-            AppwriteService.deletePost(file.featureImage)
+            service.deletePost(file.featureImage)
         }
-        const dbPost=await AppwriteService.updatePost(post.$id,{
+        const dbPost=await service.updatePost(post.$id,{
             ...data,
             featureImage: file ? file.$id :undefined
         })
@@ -26,13 +31,12 @@ const PostFrom = ({post}) => {
         }
 
     }else{
-        const  file=await AppwriteService.uploadFile(data.image[0])
+        const  file=await service.uploadFile(data.image[0])
+        
             if (file) {
                 const fileId=file.$id
                 data.featureImage=fileId
-                const dbPost=await AppwriteService.createPost({
-                    ...data,
-                    userId:userData.$id,
+                const dbPost=await service.createPost({ ...data, userId: userData.$id 
                 })
                 if (dbPost) {
                     navigate(`post/${dbPost.$id}`)
@@ -47,8 +51,9 @@ const PostFrom = ({post}) => {
                 return value
                 .trim()
                 .toLowerCase()
-                .replace(/^[a-zA-Z/d/s]+/g,'-')
-                .replace(/\s/g,'-')
+                .replace(/[^a-zA-Z\d\s]+/g, "-")
+                .replace(/\s/g, "-");
+
             }
             return ""
 
@@ -106,12 +111,12 @@ const PostFrom = ({post}) => {
     />
     {post &&(
         <div className="w-full mb-4">
-            <img src={AppwriteService.getFilePreview(post.featureImage)} alt={post.title} className='rounded-xl' />
+            <img src={service.getFilePreview(post.featureImage)} alt={post.title} className='rounded-xl' />
         </div>
     )}
 
     <Select 
-    option={[Active,Inactive]}
+    options={["active", "inactive"]}
     label="Status"
     className="mb-4"
     {...register("status",{

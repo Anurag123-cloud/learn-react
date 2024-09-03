@@ -9,17 +9,19 @@ import{useForm} from "react-hook-form"
 const LoginFrom = () => {
 
     const dispatch=useDispatch()
-    const navigate=useNavigate()
+    const navigate = useNavigate(); 
     const [error, seterror] = useState("")
     const { register, handleSubmit } = useForm()
 
     const login=async(data)=>{
         seterror("")
-        const session=await authService.login(data)
-        try {
+         try {
+            const session=await authService.login(data)
             const userData=await authService.getCurrentUser()
-            if (userData) dispatch(authstore(userData))
+            if (userData) {
+                dispatch(authstore(userData))
                 navigate("/")
+            }
         } catch (error) {
             seterror(error.message)
         }
@@ -31,7 +33,7 @@ const LoginFrom = () => {
         <div className="mx-auto w-full max-w-lg
          bg-gray-200 rounded-xl p-10 border border-black/20">
             <div className="mb-2 flex justify-center">
-                <span className='inline-block w-fll max-w-[100px]'>
+                <span className='inline-block w-full max-w-[100px]'>
                     <Logo/>
                 </span>
             </div>
@@ -51,6 +53,7 @@ const LoginFrom = () => {
                 <Input
                 label="Email"
                 placeholder="Enter your email"
+                autoComplete="email"
                 type="email"
                 {...register("email",{
                     required:true,
@@ -66,6 +69,7 @@ const LoginFrom = () => {
                 label="Password"
                 placeholder="Enter your Password"
                 type="password"
+                  autoComplete="current-password"
                 {...register("password",{
                     required:true,
                 })}

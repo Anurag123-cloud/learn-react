@@ -1,9 +1,9 @@
-import {Loginfrom} from "../index"
+import { LoginFrom } from ".." 
 
 const Login = () => {
   return (
     <div className="py-8">
-      <Loginfrom/>
+      <LoginFrom/>
     </div>
   )
 }

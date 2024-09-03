@@ -1,12 +1,13 @@
 
 import Config from "../config/config";
-import { Client, ID, Databases, Query } from "appwrite";
+import { Client, ID, Databases,Storage, Query } from "appwrite";
 
 
 export class Service{
     client=new Client();
     database;
     bucket;
+    
 
     constructor(){
         this.client
@@ -31,7 +32,7 @@ export class Service{
                 }
             )
         } catch (error) {
-            throw error
+             console.log(error)
         }
     }
 
@@ -49,7 +50,7 @@ export class Service{
                 }
             )
         } catch (error) {
-            throw error
+             console.log(error)
         }
     }
 
@@ -62,7 +63,7 @@ export class Service{
         )
         return true
        } catch (error) {
-            throw error;
+             console.log(error)
             return false;
        }
     }
@@ -76,7 +77,7 @@ export class Service{
             )
             return true
         } catch (error) {
-           throw error 
+            console.log(error) 
            return false;
         }
     }
@@ -91,48 +92,50 @@ export class Service{
             
         )
     } catch (error) {
-        throw error;
+         console.log(error)
     }
     }
-
-    async uploadFile(file){
+    async uploadFile(file) {
+        
         try {
-            await this.storage.createFile(
-                Config.appwriteBucketId,
-               ID.unique(),
-               file
-
-            )
-            return true
+           
+            return await this.bucket.createFile(
+                Config.appwriteBucketId, 
+                ID.unique(),             
+                file                     
+            );
+             
         } catch (error) {
-            throw error;
-            return false
+            console.error("Error uploading file:", error); 
+            return null;  
         }
     }
     
+    
+    
     async deleteFile(fileId){
         try {
-            await this.storage.deleteFile(
+            await this.bucket.deleteFile(
                 Config.appwriteBucketId,
                fileId
 
             )
             return true;
         } catch (error) {
-            throw error;
+             console.log(error)
             return false
         }
     }
      getFilePreview(fileId){
         try {
-            this.storage.getFilePreview(
+           return this.bucket.getFilePreview(
                 Config.appwriteBucketId,
                fileId
 
             )
-            return true;
+          
         } catch (error) {
-            throw error;
+             console.log(error)
             return false
         }
     }
